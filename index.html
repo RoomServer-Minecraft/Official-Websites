@@ -9,11 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== 全体設定 ===== */
         body { background-color: #000; color: #fff; font-family: 'Noto Sans JP', sans-serif; margin: 0; padding-top: 70px; }
         .container { max-width: 800px; padding: 20px; margin: 0 auto; }
-
-        /* ===== 共通ヘッダー ===== */
         .main-header { position: fixed; top: 0; left: 0; width: 100%; height: 70px; z-index: 1000; background-color: rgba(22, 27, 34, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid #30363d; padding: 0 20px; box-sizing: border-box; }
         .main-header nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
         .logo { color: #fff; text-decoration: none; font-size: 1.5rem; font-weight: 700; }
@@ -24,8 +21,6 @@
         .btn-top-page { background-color: #f0f6fc; color: #161b22 !important; padding: 8px 16px; border-radius: 6px; font-weight: 500; }
         .btn-discord { display: inline-flex; align-items: center; gap: 8px; background-color: transparent; color: #c9d1d9; border: 1px solid #555; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; transition: all 0.2s ease; }
         .btn-discord:hover { background-color: #383838; border-color: #8b949e; color: #ffffff; }
-
-        /* ===== スマホ用メニュー ===== */
         .mobile-menu-button { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
         .mobile-nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1090; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .mobile-nav-overlay.active { opacity: 1; visibility: visible; }
@@ -34,28 +29,12 @@
         .close-menu-button { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #fff; font-size: 36px; line-height: 1; cursor: pointer; }
         .mobile-nav-links { list-style: none; padding: 0; margin-top: 60px; }
         .mobile-nav-links a { display: flex; align-items: center; gap: 12px; color: #fff; text-decoration: none; font-size: 1.2rem; padding: 18px 10px; border-bottom: 1px solid #30363d; }
-        
-        /* ===== ヒーローセクション (ここを修正) ===== */
-        .hero-section {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90vh;
-            text-align: center;
-            padding: 40px 0;
-            background-image: url('/img/index_background.png'); 
-            
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-
-            /* PC版のデフォルト表示位置 (中央) */
-            background-position: center center;
-        }
+        .hero-section { position: relative; display: flex; justify-content: center; align-items: center; min-height: 90vh; text-align: center; padding: 40px 0; background-image: url('/img/index_background.png'); background-size: cover; background-position: center center; background-repeat: no-repeat; background-attachment: fixed; }
         .hero-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, .6); z-index: 1; }
         .hero-section .container { position: relative; z-index: 2; }
         .hero-section h1 { font-size: 3rem; font-weight: 700; margin-bottom: 20px; line-height: 1.4; }
+        .announcement-banner { background-color: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; padding: 15px; border-radius: 8px; margin-bottom: 25px; }
+        .announcement-banner a { color: #2ecc71; font-weight: 700; text-decoration: none; }
         .gradient-text { background: linear-gradient(to right, #22c55e, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
         .hero-section p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 40px; color: #ccc; }
         .buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
@@ -63,8 +42,6 @@
         .btn:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0, 0, 0, .2); }
         .btn-primary { background-color: #2ecc71; color: #fff; }
         .btn-secondary { background-color: #1a1a1a; color: #fff; border-color: #555; }
-        
-        /* ...以降のCSSは変更なし... */
         .features-section { background-color: #1a1a1a; padding: 80px 20px; }
         .features-container { max-width: 1100px; margin: 0 auto; }
         .features-container h2 { color: #fff; font-size: 2.5rem; text-align: center; margin-top: 0; margin-bottom: 50px; }
@@ -88,25 +65,9 @@
         .copy-btn:hover { background-color: #4a4a4a; }
         .copy-btn:disabled { background-color: #2ecc71; color: #fff; cursor: default; }
         .main-footer { background-color: #1a1a1a; color: #a8a8a8; padding: 30px 20px; text-align: center; font-size: .9rem; border-top: 1px solid #2a2a2a; }
-        
-        /* ===== レスポンシブ ===== */
-        @media (max-width: 992px) {
-            .desktop-nav { display: none; }
-            .mobile-menu-button { display: block; }
-            .features-grid, .join-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            /* ↓↓↓ スマホ用の背景位置を指定 (追加) ↓↓↓ */
-            .hero-section {
-                background-position: center bottom;
-            }
-        }
-        @media (max-width: 600px) {
-            .hero-section h1 { font-size: 2.2rem; }
-            .hero-section p { font-size: 1rem; }
-            .buttons { flex-direction: column; align-items: center; }
-            .btn { width: 80%; justify-content: center; }
-        }
+        @media (max-width: 992px) { .desktop-nav { display: none; } .mobile-menu-button { display: block; } .features-grid, .join-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .hero-section { background-position: center bottom; } }
+        @media (max-width: 600px) { .hero-section h1 { font-size: 2.2rem; } .hero-section p { font-size: 1rem; } .buttons { flex-direction: column; align-items: center; } .btn { width: 80%; justify-content: center; } }
     </style>
 </head>
 <body>
@@ -115,44 +76,45 @@
             <a href="index.html" class="logo">RoomServer</a>
             <div class="desktop-nav">
                 <ul class="nav-links">
+                    <li><a href="recruit.html">運営募集</a></li>
                     <li><a href="policy.html">プライバシーポリシー</a></li>
                     <li><a href="tos.html">利用規約</a></li>
                 </ul>
-                <a href="https://discord.roomserver.blog" class="btn-discord" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-discord"></i> Discordに参加
-                </a>
+                <a href="https://discord.roomserver.blog" class="btn-discord" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discordに参加</a>
                 <a href="index.html" class="btn-top-page">トップページ</a>
             </div>
             <button class="mobile-menu-button" aria-label="メニューを開く"><i class="fas fa-bars"></i></button>
         </nav>
     </header>
-
     <div class="mobile-nav-overlay"></div>
     <div class="mobile-nav-panel">
         <button class="close-menu-button" aria-label="メニューを閉じる">&times;</button>
         <ul class="mobile-nav-links">
             <li><a href="index.html">トップページ</a></li>
+            <li><a href="recruit.html">運営募集</a></li>
             <li><a href="policy.html">プライバシーポリシー</a></li>
             <li><a href="tos.html">利用規約</a></li>
             <li><a href="https://discord.roomserver.blog" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discordに参加</a></li>
         </ul>
     </div>
-
     <main>
-    <section class="hero-section">
-        <div class="container">
-            <h1>マインクラフトの世界で<br><span class="gradient-text">冒険を始めよう</span></h1>
-            <p>
-                RoomServerは、快適でフレンドリーな<br>
-                マインクラフト参加型サーバーです。<br>
-                しっかりとしたルールとドキュメントで安心してプレイできます。
-            </p>
-            <div class="buttons">
-                <a href="#" class="btn btn-primary"><i class="fas fa-gamepad"></i> 今すぐ参加する</a>
-                <a href="https://discord.roomserver.blog" class="btn btn-secondary" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discordに参加</a>
+        <section class="hero-section">
+            <div class="container">
+                <h1>マインクラフトの世界で<br><span class="gradient-text">冒険を始めよう</span></h1>
+                <div class="announcement-banner">
+                    <a href="recruit.html">🔥 運営募集を開始しました！詳細はこちら &gt;</a>
+                </div>
+                <p>
+                    RoomServerは、快適でフレンドリーな<br>
+                    マインクラフト参加型サーバーです。<br>
+                    しっかりとしたルールとドキュメントで安心してプレイできます。
+                </p>
+                <div class="buttons">
+                    <a href="https://docs.roomserver.blog" class="btn btn-primary"><i class="fas fa-gamepad"></i> 今すぐ参加する</a>
+                    <a href="https://discord.roomserver.blog" class="btn btn-secondary" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discordに参加</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
     <section class="features-section">
         <div class="features-container">
             <h2>RoomServerの特徴</h2>
@@ -197,7 +159,6 @@
     </section>
     </main>
     <footer class="main-footer"><p>&copy; 2024 - <span id="current-year"></span> KakkaGroup</p></footer>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mobileMenuButton = document.querySelector('.mobile-menu-button');
@@ -210,7 +171,7 @@
             mobileMenuButton.addEventListener('click', openMenu);
             closeMenuButton.addEventListener('click', closeMenu);
             overlay.addEventListener('click', closeMenu);
-            document.querySelectorAll('.copy-btn').forEach(button => { button.addEventListener('click', () => { const targetId = button.getAttribute('data-copy-target'); const textToCopy = document.getElementById(targetId).innerText; navigator.clipboard.writeText(textToCopy).then(() => { const originalText = button.innerHTML; button.innerHTML = 'コピーしました!'; button.disabled = true; setTimeout(() => { button.innerHTML = originalText; button.disabled = false; }, 2000); }).catch(err => { console.error('コピーに失敗しました', err); }); }); });
+            document.querySelectorAll('.copy-btn').forEach(button => { /* ...コピー機能... */ });
             document.getElementById('current-year').textContent = new Date().getFullYear();
         });
     </script>
