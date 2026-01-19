@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <!-- Markdown Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Syntax Highlighting -->
@@ -16,277 +18,359 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --sidebar-bg: #161b22;
-            --border-color: #30363d;
-            --text-color: #c9d1d9;
-            --accent-color: #58a6ff;
-            --header-height: 70px;
+            --bg-color: #ffffff;
+            --sidebar-bg: #f5f7f9;
+            --border-color: #e6e8eb;
+            --text-color: #24292e;
+            --text-muted: #586069;
+            --accent-color: #3884ff;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+            --code-bg: #f6f8fa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1c1e21;
+            --sidebar-bg: #111214;
+            --border-color: #2e3034;
+            --text-color: #e3e3e3;
+            --text-muted: #9ea7b3;
+            --accent-color: #4da3ff;
+            --code-bg: #2d3136;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Noto Sans JP', sans-serif;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
             margin: 0;
-            padding-top: var(--header-height);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            z-index: 100;
+            padding: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 0 24px 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar-nav {
+            padding: 0 12px;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin: 4px 0;
+        }
+
+        .sidebar-nav .nav-item {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar-nav .nav-item:hover {
+            background-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .sidebar-nav .nav-item.active {
+            background-color: #fff;
+            color: var(--accent-color);
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .sidebar-nav .nav-item.active {
+            background-color: #2d3136;
+        }
+
+        .sidebar-nav .nav-group-title {
+            padding: 16px 12px 8px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sidebar-nav .indent-1 {
+            padding-left: 24px;
+        }
+
+        .sidebar-nav .indent-2 {
+            padding-left: 36px;
+        }
+
+        /* Main Content */
+        .main-wrapper {
+            flex: 1;
+            margin-left: var(--sidebar-width);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* Header Styles (Same as index.html) */
-        .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+        .content-header {
             height: var(--header-height);
-            z-index: 1000;
-            background-color: rgba(22, 27, 34, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-
-        .main-header nav {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            height: 100%;
+            padding: 0 40px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 90;
         }
 
-        .logo {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5rem;
+        [data-theme="dark"] .content-header {
+            background-color: rgba(28, 30, 33, 0.8);
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 40px 60px;
+            flex: 1;
+        }
+
+        /* Markdown Content Styles */
+        .markdown-body {
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .markdown-body h1 {
+            font-size: 2.25rem;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
             font-weight: 700;
         }
 
-        .desktop-nav {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 30px;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #c9d1d9;
-            text-decoration: none;
-            transition: color .2s ease;
-        }
-
-        .nav-links a:hover {
-            color: #fff;
-        }
-
-        .btn-top-page {
-            background-color: #f0f6fc;
-            color: #161b22 !important;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 500;
-            text-decoration: none;
-        }
-
-        .btn-discord {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: transparent;
-            color: #c9d1d9;
-            border: 1px solid #555;
-            padding: 8px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .btn-discord:hover {
-            background-color: #383838;
-            border-color: #8b949e;
-            color: #ffffff;
-        }
-
-        /* Docs Layout */
-        .docs-container {
-            display: flex;
-            flex: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        /* Sidebar */
-        .docs-sidebar {
-            width: 300px;
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            height: calc(100vh - var(--header-height));
-            position: sticky;
-            top: var(--header-height);
-            overflow-y: auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .docs-sidebar h2 {
-            font-size: 1rem;
-            color: #8b949e;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .docs-sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .docs-sidebar li {
-            margin-bottom: 5px;
-        }
-
-        .docs-sidebar a {
-            color: var(--text-color);
-            text-decoration: none;
-            display: block;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .docs-sidebar a:hover {
-            background-color: #30363d;
-            color: #fff;
-        }
-
-        .docs-sidebar a.active {
-            background-color: #1f6feb;
-            color: #fff;
-            font-weight: 500;
-        }
-
-        /* Content Area */
-        .docs-content {
-            flex: 1;
-            padding: 40px 60px;
-            max-width: 900px;
-            line-height: 1.6;
-        }
-
-        .docs-content h1 {
-            font-size: 2.2rem;
-            color: #fff;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-        }
-
-        .docs-content h2 {
-            font-size: 1.8rem;
-            color: #fff;
+        .markdown-body h2 {
+            font-size: 1.65rem;
             margin-top: 40px;
             margin-bottom: 20px;
+            font-weight: 600;
         }
 
-        .docs-content h3 {
-            font-size: 1.4rem;
-            color: #fff;
-            margin-top: 30px;
+        .markdown-body p {
+            margin-bottom: 16px;
         }
 
-        .docs-content p {
-            margin-bottom: 20px;
+        .markdown-body a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-body img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .markdown-body code {
+            background-color: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            font-size: 0.85em;
+        }
+
+        .markdown-body pre {
+            background-color: var(--code-bg);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--border-color);
+            padding-left: 16px;
+            color: var(--text-muted);
+            margin: 20px 0;
+        }
+
+        /* GitBook Hints */
+        .hint {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+            font-size: 0.95rem;
+            display: flex;
+            gap: 16px;
+            border: 1px solid transparent;
+        }
+
+        .hint-icon {
+            font-size: 1.25rem;
+            margin-top: 2px;
+        }
+
+        .hint.info {
+            background-color: #e7f3ff;
+            border-color: #cce5ff;
+            color: #004085;
+        }
+
+        .hint.warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+        }
+
+        .hint.danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        [data-theme="dark"] .hint.info {
+            background: rgba(56, 132, 255, 0.1);
+            border-color: rgba(56, 132, 255, 0.2);
+            color: #8ec2ff;
+        }
+
+        [data-theme="dark"] .hint.warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: rgba(255, 193, 7, 0.2);
+            color: #ffe18a;
+        }
+
+        [data-theme="dark"] .hint.danger {
+            background: rgba(248, 81, 73, 0.1);
+            border-color: rgba(248, 81, 73, 0.2);
+            color: #ff9ca3;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+            gap: 20px;
+        }
+
+        .pagination-link {
+            flex: 1;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pagination-link:hover {
+            border-color: var(--accent-color);
+            background-color: var(--sidebar-bg);
+        }
+
+        .pagination-link .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .pagination-link .title {
+            font-weight: 600;
             font-size: 1.1rem;
         }
 
-        .docs-content img {
-            max-width: 100%;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            margin: 20px 0;
+        .pagination-link.next {
+            text-align: right;
         }
 
-        .docs-content code {
-            background-color: #30363d;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        .docs-content pre {
-            background-color: #161b22;
-            padding: 20px;
-            border-radius: 12px;
-            overflow-x: auto;
-            border: 1px solid var(--border-color);
-        }
-
-        .docs-content pre code {
-            background-color: transparent;
-            padding: 0;
-        }
-
-        .docs-content blockquote {
-            border-left: 4px solid var(--accent-color);
-            padding: 10px 20px;
-            background-color: rgba(88, 166, 255, 0.1);
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        /* Mobile adjustment */
-        .mobile-menu-button {
+        /* Mobile Adjustments */
+        .mobile-toggle {
             display: none;
             background: none;
             border: none;
-            color: #fff;
-            font-size: 24px;
+            color: var(--text-color);
+            font-size: 1.25rem;
             cursor: pointer;
         }
 
         @media (max-width: 992px) {
-            .docs-container {
-                flex-direction: column;
+            .sidebar {
+                transform: translateX(-100%);
             }
 
-            .docs-sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                top: 0;
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
+            .sidebar.active {
+                transform: translateX(0);
             }
 
-            .docs-content {
-                padding: 30px 20px;
+            .main-wrapper {
+                margin-left: 0;
             }
 
-            .desktop-nav {
-                display: none;
-            }
-
-            .mobile-menu-button {
+            .mobile-toggle {
                 display: block;
+            }
+
+            .content-container {
+                padding: 30px 20px;
             }
         }
 
@@ -294,149 +378,291 @@
             display: flex;
             justify-content: center;
             padding: 100px;
-            font-size: 1.5rem;
-            color: #8b949e;
+            font-size: 2rem;
+            color: var(--accent-color);
         }
 
-        /* GitBook like Hints */
-        .hint {
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #555;
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
         }
 
-        .hint.danger {
-            background-color: rgba(248, 81, 73, 0.1);
-            border-left-color: #f85149;
-        }
-
-        .hint.info {
-            background-color: rgba(56, 139, 253, 0.1);
-            border-left-color: #388bfd;
+        .theme-toggle:hover {
+            background: var(--border-color);
+            color: var(--text-color);
         }
     </style>
 </head>
 
-<body>
-    <header class="main-header">
-        <nav>
-            <a href="index.html" class="logo">RoomServer</a>
-            <div class="desktop-nav">
-                <ul class="nav-links">
-                    <li><a href="docs.html">ドキュメント</a></li>
-                    <li><a href="recruit.html">運営募集</a></li>
-                    <li><a href="policy.html">プライバシーポリシー</a></li>
-                    <li><a href="tos.html">利用規約</a></li>
-                </ul>
-                <a href="https://discord.roomserver.blog" class="btn-discord" target="_blank"
-                    rel="noopener noreferrer"><i class="fab fa-discord"></i> Discordに参加</a>
-                <a href="index.html" class="btn-top-page">トップページ</a>
-            </div>
-            <button class="mobile-menu-button" aria-label="メニューを開く"><i class="fas fa-bars"></i></button>
+<body data-theme="dark">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo">RoomServer Docs</a>
+        </div>
+        <nav class="sidebar-nav" id="sidebar-nav">
+            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>
         </nav>
-    </header>
+    </aside>
 
-    <div class="docs-container">
-        <aside class="docs-sidebar" id="sidebar">
-            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>
-        </aside>
-        <main class="docs-content" id="content">
-            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>
+    <div class="main-wrapper">
+        <header class="content-header">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <button class="mobile-toggle" id="mobile-toggle"><i class="fas fa-bars"></i></button>
+                <div class="breadcrumb" id="breadcrumb">Documentation</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button class="theme-toggle" id="theme-toggle" title="テーマ切り替え">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">
+                    <i class="fas fa-home"></i> トップへ
+                </a>
+            </div>
+        </header>
+
+        <main class="content-container">
+            <article class="markdown-body" id="content">
+                <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>
+            </article>
+
+            <nav class="pagination" id="pagination">
+                <!-- Pagination links will be inserted here -->
+            </nav>
         </main>
     </div>
 
     <script>
-        const sidebarEl = document.getElementById('sidebar');
+        const sidebarNav = document.getElementById('sidebar-nav');
         const contentEl = document.getElementById('content');
+        const breadcrumbEl = document.getElementById('breadcrumb');
+        const paginationEl = document.getElementById('pagination');
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const themeToggle = document.getElementById('theme-toggle');
+
+        let summaryData = [];
 
         // Configure Marked
         marked.setOptions({
+            headerIds: true,
+            gfm: true,
+            breaks: true,
             highlight: function (code, lang) {
                 const language = hljs.getLanguage(lang) ? lang : 'plaintext';
                 return hljs.highlight(code, { language }).value;
-            },
-            headerIds: true,
-            gfm: true
+            }
         });
 
         // GitBook hint extension for marked
         const renderer = new marked.Renderer();
-        const originalHtml = renderer.html.bind(renderer);
+
+        // Custom link rendering to handle relative links
+        renderer.link = (href, title, text) => {
+            if (href.endsWith('.md')) {
+                return `<a href="#${href}" onclick="event.preventDefault(); window.location.hash = '${href}'">${text}</a>`;
+            }
+            return `<a href="${href}" ${title ? `title="${title}"` : ''} target="_blank">${text}</a>`;
+        };
+
+        // Custom hint handling
+        const originalText = renderer.text.bind(renderer);
         renderer.html = (html) => {
             if (html.includes('{% hint')) {
-                const type = html.match(/style="([^"]+)"/)?.[1] || 'info';
-                return `<div class="hint ${type}">`;
+                const styleMatch = html.match(/style="([^"]+)"/);
+                const style = styleMatch ? styleMatch[1] : 'info';
+                let icon = 'info-circle';
+                if (style === 'warning') icon = 'exclamation-triangle';
+                if (style === 'danger') icon = 'times-circle';
+
+                return `<div class="hint ${style}"><i class="fas fa-${icon} hint-icon"></i><div>`;
             }
             if (html.includes('{% endhint %}')) {
-                return `</div>`;
+                return `</div></div>`;
             }
-            return originalHtml(html);
+            return html;
         };
+
         marked.setOptions({ renderer });
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', nextTheme);
+            themeToggle.innerHTML = nextTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+
+        // Mobile Toggle
+        mobileToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
 
         async function loadSidebar() {
             try {
                 const response = await fetch('docs/SUMMARY.md');
+                if (!response.ok) throw new Error('Failed to load SUMMARY.md');
                 const text = await response.text();
 
-                // Simple parsing for SUMMARY.md
                 const lines = text.split('\n');
-                let html = '<h2>目次</h2><ul>';
+                let html = '<ul>';
+                summaryData = [];
 
                 lines.forEach(line => {
-                    const match = line.match(/^\* \[(.+)\]\((.+)\)/);
+                    // Match nested lists: * [Title](path.md)
+                    const match = line.match(/^(\s*)\* \[(.+)\]\((.+)\)/);
+                    // Match headers: ## Title
+                    const headerMatch = line.match(/^##\s+(.+)$/);
+
                     if (match) {
-                        const title = match[1];
-                        const path = match[2];
-                        html += `<li><a href="#${path}" onclick="loadContent('${path}')">${title}</a></li>`;
-                    } else if (line.startsWith('## ')) {
-                        html += `</ul><h2>${line.replace('## ', '').replace(/<a.*>.*<\/a>/, '')}</h2><ul>`;
+                        const indentLevel = match[1].length / 2; // Assume 2 spaces per level
+                        const title = match[2];
+                        const path = match[3];
+
+                        summaryData.push({ title, path });
+
+                        html += `<li><a href="#${path}" class="nav-item indent-${indentLevel}" data-path="${path}">${title}</a></li>`;
+                    } else if (headerMatch) {
+                        // Clean title from GitBook anchor tags if present
+                        let title = headerMatch[1].replace(/<a.*>.*<\/a>/, '').trim();
+                        html += `<div class="nav-group-title">${title}</div>`;
                     }
                 });
 
                 html += '</ul>';
-                sidebarEl.innerHTML = html;
+                sidebarNav.innerHTML = html;
 
-                // Load initial content (README.md)
+                // Add click events to links
+                sidebarNav.querySelectorAll('.nav-item').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        const path = link.getAttribute('data-path');
+                        // Event is partially handled by hashchange but we can trigger it
+                        if (window.innerWidth <= 992) sidebar.classList.remove('active');
+                    });
+                });
+
+                // Load initial content
                 const hash = window.location.hash.slice(1) || 'README.md';
                 loadContent(hash);
             } catch (err) {
-                sidebarEl.innerHTML = '<p>目次の読み込みに失敗しました。</p>';
+                console.error(err);
+                sidebarNav.innerHTML = '<p style="padding: 20px; color: red;">目次の読み込みに失敗しました。パスを確認してください。</p>';
             }
         }
 
         async function loadContent(path) {
             contentEl.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>';
 
-            // Update active state in sidebar
-            const links = sidebarEl.querySelectorAll('a');
-            links.forEach(link => {
-                if (link.getAttribute('href') === `#${path}`) {
+            // Highlight active link
+            sidebarNav.querySelectorAll('.nav-item').forEach(link => {
+                if (link.getAttribute('data-path') === path) {
                     link.classList.add('active');
+                    breadcrumbEl.textContent = `Documentation / ${link.textContent}`;
                 } else {
                     link.classList.remove('active');
                 }
             });
 
             try {
-                const response = await fetch(`docs/${path}`);
+                const fetchPath = `docs/${path}`;
+                const response = await fetch(fetchPath);
+
+                if (!response.ok) {
+                    if (path === 'README.md') {
+                        // Fallback check if README.md is at root (unlikely given summary but good for safety)
+                        const rootResp = await fetch('README.md');
+                        if (rootResp.ok) return renderMarkdown(await rootResp.text(), path);
+                    }
+                    throw new Error(`Failed to load ${fetchPath} (Status: ${response.status})`);
+                }
+
                 let text = await response.text();
-
-                // Clean up frontmatter if exists
-                text = text.replace(/^---[\s\S]+?---/, '');
-
-                // Fix image paths (.gitbook/assets/ -> docs/.gitbook/assets/)
-                text = text.replace(/(\!\[.*\]\()\.gitbook\/assets\/(.*)\)/g, '$1docs/.gitbook/assets/$2)');
-                // Also fix <img src="..."> tags
-                text = text.replace(/<img src="\.gitbook\/assets\/(.+?)"/g, '<img src="docs/.gitbook/assets/$1"');
-
-                contentEl.innerHTML = marked.parse(text);
-                window.scrollTo(0, 0);
-                hljs.highlightAll();
+                renderMarkdown(text, path);
             } catch (err) {
-                contentEl.innerHTML = `<h1>エラー</h1><p>コンテンツの読み込みに失敗しました: ${path}</p>`;
+                contentEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #f85149; margin-bottom: 20px;"></i>
+                        <h1>コンテンツの読み込みに失敗しました</h1>
+                        <p>ファイルパス: <code>docs/${path}</code></p>
+                        <p style="color: var(--text-muted);">ローカルで実行している場合は、Webサーバー経由で開く必要があります。</p>
+                        <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; border-radius: 6px; cursor: pointer;">再読み込み</button>
+                    </div>`;
+                console.error(err);
             }
+        }
+
+        function renderMarkdown(text, path) {
+            // Clean up frontmatter if exists (more robustly)
+            text = text.replace(/^---[\r\n][\s\S]*?[\r\n]---/, '');
+
+            // Handle GitBook Hints (pre-processing to ensure nested markdown works)
+            text = text.replace(/\{% hint style="(.+?)" %\}([\s\S]*?)\{% endhint %\}/g, (match, style, content) => {
+                let icon = 'info-circle';
+                if (style === 'warning') icon = 'exclamation-triangle';
+                if (style === 'danger') icon = 'times-circle';
+
+                // We leave the content as-is so marked will parse it inside the div
+                return `<div class="hint ${style}"><i class="fas fa-${icon} hint-icon"></i><div>\n\n${content.trim()}\n\n</div></div>`;
+            });
+
+            // Fix image paths (.gitbook/assets/ -> docs/.gitbook/assets/)
+            const currentDir = path.includes('/') ? path.split('/').slice(0, -1).join('/') + '/' : '';
+
+            // 1. Markdown image syntax ![alt](path)
+            text = text.replace(/\!\[(.*?)\]\((.*?)\)/g, (match, alt, imgPath) => {
+                if (imgPath.startsWith('http') || imgPath.startsWith('/')) return match;
+                const absoluteImgPath = imgPath.startsWith('.gitbook') ? `docs/${imgPath}` : `docs/${currentDir}${imgPath}`;
+                return `![${alt}](${absoluteImgPath})`;
+            });
+
+            // 2. HTML img tags <img src="path">
+            text = text.replace(/<img src="(.*?)"/g, (match, imgPath) => {
+                if (imgPath.startsWith('http') || imgPath.startsWith('/')) return match;
+                const absoluteImgPath = imgPath.startsWith('.gitbook') ? `docs/${imgPath}` : `docs/${currentDir}${imgPath}`;
+                return `<img src="${absoluteImgPath}"`;
+            });
+
+            // Parse and apply
+            contentEl.innerHTML = marked.parse(text);
+
+            window.scrollTo(0, 0);
+            document.querySelectorAll('pre code').forEach((el) => {
+                hljs.highlightElement(el);
+            });
+
+            updatePagination(path);
+        }
+
+        function updatePagination(currentPath) {
+            const index = summaryData.findIndex(item => item.path === currentPath);
+            let html = '';
+
+            if (index > 0) {
+                const prev = summaryData[index - 1];
+                html += `
+                    <a href="#${prev.path}" class="pagination-link prev" onclick="window.location.hash = '${prev.path}'">
+                        <span class="label">前ページ</span>
+                        <span class="title">${prev.title}</span>
+                    </a>`;
+            } else {
+                html += '<div></div>'; // Spacer
+            }
+
+            if (index !== -1 && index < summaryData.length - 1) {
+                const next = summaryData[index + 1];
+                html += `
+                    <a href="#${next.path}" class="pagination-link next" onclick="window.location.hash = '${next.path}'">
+                        <span class="label">次ページ</span>
+                        <span class="title">${next.title}</span>
+                    </a>`;
+            }
+
+            paginationEl.innerHTML = html;
         }
 
         window.addEventListener('hashchange', () => {
@@ -444,6 +670,7 @@
             if (hash) loadContent(hash);
         });
 
+        // Initialize
         loadSidebar();
     </script>
 </body>
