@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,68 +10,271 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #161b22; color: #c9d1d9; font-family: 'Noto Sans JP', sans-serif; margin: 0; line-height: 1.8; padding-top: 70px; }
-        .main-header { position: fixed; top: 0; left: 0; width: 100%; height: 70px; z-index: 1000; background-color: rgba(22, 27, 34, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid #30363d; padding: 0 20px; box-sizing: border-box; }
-        .main-header nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
-        .logo { color: #fff; text-decoration: none; font-size: 1.5rem; font-weight: 700; }
-        .desktop-nav { display: flex; align-items: center; gap: 30px; }
-        .nav-links { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; align-items: center; }
-        .nav-links a { color: #c9d1d9; text-decoration: none; transition: color .2s ease; }
-        .nav-links a:hover { color: #fff; }
-        .btn-top-page { background-color: #f0f6fc; color: #161b22 !important; padding: 8px 16px; border-radius: 6px; font-weight: 500; }
-        .mobile-menu-button { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
-        .mobile-nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1090; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
-        .mobile-nav-overlay.active { opacity: 1; visibility: visible; }
-        .mobile-nav-panel { position: fixed; top: 0; right: 0; width: 280px; height: 100%; background-color: #161b22; box-shadow: -5px 0 20px rgba(0,0,0,.3); transform: translateX(100%); transition: transform 0.3s ease; z-index: 1100; padding: 20px; box-sizing: border-box; }
-        .mobile-nav-panel.active { transform: translateX(0); }
-        .close-menu-button { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #fff; font-size: 36px; line-height: 1; cursor: pointer; }
-        .mobile-nav-links { list-style: none; padding: 0; margin-top: 60px; }
-        .mobile-nav-links a { display: flex; align-items: center; gap: 12px; color: #fff; text-decoration: none; font-size: 1.2rem; padding: 18px 10px; border-bottom: 1px solid #30363d; }
-        /* ===== Discordボタンのスタイル (追加) ===== */
-.btn-discord {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: transparent;
-    color: #c9d1d9;
-    border: 1px solid #555;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
+        body {
+            background-color: #161b22;
+            color: #c9d1d9;
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            line-height: 1.8;
+            padding-top: 70px;
+        }
 
-.btn-discord:hover {
-    background-color: #383838;
-    border-color: #8b949e;
-    color: #ffffff;
-}
-        main { padding: 60px 20px; }
-        .policy-container { max-width: 800px; margin: 0 auto; }
-        .policy-container h1 { font-size: 2.8rem; color: #fff; text-align: center; margin-top: 0; margin-bottom: 10px; }
-        .last-updated { text-align: center; color: #8b949e; margin-bottom: 60px; }
-        .policy-container h2 { font-size: 1.8rem; color: #fff; border-bottom: 1px solid #30363d; padding-bottom: 10px; margin-top: 50px; }
-        .policy-container p { font-size: 1rem; }
-        .policy-container ul { padding-left: 20px; list-style: none; }
-        .policy-container ul li { position: relative; padding-left: 25px; margin-bottom: 15px; }
-        .policy-container ul li::before { content: '●'; position: absolute; left: 0; color: #8b949e; font-size: .8em; }
-        .policy-container .note { font-size: .9rem; color: #8b949e; border-left: 3px solid #444; padding-left: 15px; margin-top: 10px; }
-        .main-footer { background-color: #0d1117; color: #8b949e; padding: 30px 20px; text-align: center; font-size: .9rem; border-top: 1px solid #30363d; }
-        @media (max-width: 992px) { .desktop-nav { display: none; } .mobile-menu-button { display: block; } }
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 1000;
+            background-color: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid #30363d;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .main-header nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #c9d1d9;
+            text-decoration: none;
+            transition: color .2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .btn-top-page {
+            background-color: #f0f6fc;
+            color: #161b22 !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1090;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100%;
+            background-color: #161b22;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, .3);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1100;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .mobile-nav-panel.active {
+            transform: translateX(0);
+        }
+
+        .close-menu-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 36px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            padding: 0;
+            margin-top: 60px;
+        }
+
+        .mobile-nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 18px 10px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        /* ===== Discordボタンのスタイル (追加) ===== */
+        .btn-discord {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: transparent;
+            color: #c9d1d9;
+            border: 1px solid #555;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-discord:hover {
+            background-color: #383838;
+            border-color: #8b949e;
+            color: #ffffff;
+        }
+
+        main {
+            padding: 60px 20px;
+        }
+
+        .policy-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .policy-container h1 {
+            font-size: 2.8rem;
+            color: #fff;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 60px;
+        }
+
+        .policy-container h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+            margin-top: 50px;
+        }
+
+        .policy-container p {
+            font-size: 1rem;
+        }
+
+        .policy-container ul {
+            padding-left: 20px;
+            list-style: none;
+        }
+
+        .policy-container ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .policy-container ul li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: #8b949e;
+            font-size: .8em;
+        }
+
+        .policy-container .note {
+            font-size: .9rem;
+            color: #8b949e;
+            border-left: 3px solid #444;
+            padding-left: 15px;
+            margin-top: 10px;
+        }
+
+        .main-footer {
+            background-color: #0d1117;
+            color: #8b949e;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: .9rem;
+            border-top: 1px solid #30363d;
+        }
+
+        @media (max-width: 992px) {
+            .desktop-nav {
+                display: none;
+            }
+
+            .mobile-menu-button {
+                display: block;
+            }
+        }
     </style>
 </head>
+
 <body>
     <header class="main-header">
         <nav>
             <a href="index.html" class="logo">RoomServer</a>
             <div class="desktop-nav">
                 <ul class="nav-links">
+                    <li><a href="docs.html">ドキュメント</a></li>
                     <li><a href="recruit.html">運営募集</a></li>
                     <li><a href="policy.html">プライバシーポリシー</a></li>
                     <li><a href="tos.html">利用規約</a></li>
                 </ul>
-                <a href="https://discord.roomserver.blog" class="btn-discord" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discordに参加</a>
+                <a href="https://discord.roomserver.blog" class="btn-discord" target="_blank"
+                    rel="noopener noreferrer"><i class="fab fa-discord"></i> Discordに参加</a>
                 <a href="index.html" class="btn-top-page">トップページ</a>
             </div>
             <button class="mobile-menu-button" aria-label="メニューを開く"><i class="fas fa-bars"></i></button>
@@ -81,10 +285,12 @@
         <button class="close-menu-button" aria-label="メニューを閉じる">&times;</button>
         <ul class="mobile-nav-links">
             <li><a href="index.html">トップページ</a></li>
+            <li><a href="docs.html">ドキュメント</a></li>
             <li><a href="recruit.html">運営募集</a></li>
             <li><a href="policy.html">プライバシーポリシー</a></li>
             <li><a href="tos.html">利用規約</a></li>
-            <li><a href="https://discord.roomserver.blog" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discordに参加</a></li>
+            <li><a href="https://discord.roomserver.blog" target="_blank" rel="noopener noreferrer"><i
+                        class="fab fa-discord"></i> Discordに参加</a></li>
         </ul>
     </div>
     <main>
@@ -103,12 +309,13 @@
                 <li><strong>運営:</strong> 本サーバーを運営するRSM運営者及び総括管理者</li>
                 <li><strong>アカウント:</strong> 本サーバーにアクセスするためにユーザーが登録する情報（IPアドレス、デバイス情報を含む）</li>
                 <li><strong>クライアント:</strong> 本サーバーに接続するためのソフトウェアやハードウェア</li>
-                <li><strong>VPN:</strong> Virtual Private Networkの略で、インターネット上の通信を暗号化し、あたかも別のネットワークに接続しているかのように見せかける技術</li>
+                <li><strong>VPN:</strong> Virtual Private Networkの略で、インターネット上の通信を暗号化し、あたかも別のネットワークに接続しているかのように見せかける技術
+                </li>
             </ul>
 
             <h2>第3条 利用規約への同意</h2>
             <p>ユーザーは、本サーバーを利用することにより、本規約の内容に同意したものとみなします。</p>
-            
+
             <h2>第4条 利用の禁止</h2>
             <p>ユーザーは、以下の行為を禁止します。</p>
             <ul>
@@ -124,17 +331,21 @@
                 <li>不正なアイテムの使用: 透明スキンなど、不正な方法で入手したアイテムの使用</li>
                 <li>ゲームの不正利用: グリッチなど、ゲームのシステムを不正に利用する行為</li>
                 <li>PvPに関する制限: 運営が指定したサーバー以外でのPvP行為</li>
-                <li>アカウントの複数利用: 1つのユーザーが複数のアカウントを作成して利用すること。IPアドレスやデバイス情報など、アカウントを特定できる情報が同一であると判断された場合、複数アカウントとみなします。</li>
+                <li>アカウントの複数利用: 1つのユーザーが複数のアカウントを作成して利用すること。IPアドレスやデバイス情報など、アカウントを特定できる情報が同一であると判断された場合、複数アカウントとみなします。
+                </li>
                 <li>クライアントの複数利用: 1つのアカウントで複数のクライアントから同時に接続すること。</li>
                 <li>VPNの使用: VPNを使用してサーバーに接続すること。</li>
                 <li>代理問い合わせ: 他のユーザーを代理して問い合わせを行うこと。</li>
                 <li>グループを作成する行為: グループで固まって、ほかの人と離れてプレイする行為(※)</li>
             </ul>
-            <p class="note">※第４条１７項につきまして、S2での２グループとの競争問題や、ソロプレイヤーに配慮したルールとなっています。当ルールについては、グループの結成や、各個別でVCをしてプレイをするのは可能ですが、他グループ等への被害や、ソロプレイができない環境になっている場合を違反としています。</p>
+            <p class="note">
+                ※第４条１７項につきまして、S2での２グループとの競争問題や、ソロプレイヤーに配慮したルールとなっています。当ルールについては、グループの結成や、各個別でVCをしてプレイをするのは可能ですが、他グループ等への被害や、ソロプレイができない環境になっている場合を違反としています。
+            </p>
 
             <h2>第5条 プライバシー保護</h2>
-            <p>運営は、ユーザーの個人情報を適切に管理し、プライバシー保護に努めます。ただし、法令に基づく開示要求があった場合や、本サーバーの利用規約違反があった場合には、個人情報を開示することがあります。詳細については、別途定めるプライバシーポリシーをご覧ください。</p>
-            
+            <p>運営は、ユーザーの個人情報を適切に管理し、プライバシー保護に努めます。ただし、法令に基づく開示要求があった場合や、本サーバーの利用規約違反があった場合には、個人情報を開示することがあります。詳細については、別途定めるプライバシーポリシーをご覧ください。
+            </p>
+
             <h2>第6条 利用規約の変更</h2>
             <p>運営は、本規約を予告なく変更することがあります。変更後の規約は、本サーバー上に掲示された時点で効力を生じます。</p>
 
@@ -153,7 +364,9 @@
             <p>本規約に定めのない事項については、関係法令の定めるところによります。</p>
         </div>
     </main>
-    <footer class="main-footer"><p>&copy; 2024 - <span id="current-year"></span> KakkaGroup</p></footer>
+    <footer class="main-footer">
+        <p>&copy; 2024 - <span id="current-year"></span> KakkaGroup</p>
+    </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mobileMenuButton = document.querySelector('.mobile-menu-button');
@@ -170,4 +383,5 @@
         });
     </script>
 </body>
+
 </html>
