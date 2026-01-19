@@ -25,7 +25,3 @@
 * [LunaChat](p.survival/lunachat.md)
 * [IronElevators](p.survival/ironelevators.md)
 * [WorldGuard](p.survival/worldguard.md)
-
-## クリスマス大作戦（大遅刻） <a href="#winter-event_2025" id="winter-event_2025"></a>
-
-* [クリスマス大作戦！（大遅刻）](winter-event_2025/kurisumasu.md)
