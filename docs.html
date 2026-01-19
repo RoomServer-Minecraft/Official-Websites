@@ -662,11 +662,10 @@
 
         async function loadSidebar() {
             try {
-                const response = await fetch('docs/SUMMARY.md');
-                if (!response.ok) throw new Error('Failed to load SUMMARY.md');
+                const response = await fetchWithRetry('docs/SUMMARY.md');
                 const text = await response.text();
 
-                const lines = text.split('\n');
+                const lines = text.split(/\r?\n/);
                 let html = '<ul>';
                 summaryData = [];
 
@@ -676,8 +675,8 @@
 
                     if (match) {
                         const indentLevel = match[1].length / 2;
-                        const title = match[2];
-                        const path = match[3];
+                        const title = match[2].trim();
+                        const path = match[3].trim();
                         summaryData.push({ title, path });
                         html += `<li><a href="#${path}" class="nav-item indent-${indentLevel}" data-path="${path}">${title}</a></li>`;
                     } else if (headerMatch) {
@@ -715,12 +714,36 @@
             });
 
             try {
-                const response = await fetch(`docs/${path}`);
-                if (!response.ok) throw new Error('Failed to load content');
+                const response = await fetchWithRetry(`docs/${path}`);
                 let text = await response.text();
                 renderMarkdown(text, path);
             } catch (err) {
-                contentEl.innerHTML = `<h1>エラー</h1><p>コンテンツの読み込みに失敗しました: docs/${path}</p>`;
+                console.error('Fetch error:', err);
+                const decodedPath = decodeURIComponent(path);
+                contentEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #f85149; margin-bottom: 20px;"></i>
+                        <h1>コンテンツの読み込みに失敗しました</h1>
+                        <p style="margin: 10px 0;">対象ファイル: <code>docs/${decodedPath}</code></p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">サーバー上にファイルが存在するか、パスが正しいか確認してください。</p>
+                        <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+                            <button onclick="location.hash='#README.md'; location.reload();" style="padding: 8px 16px; border-radius: 6px; cursor: pointer; border: 1px solid var(--border-color); background: var(--sidebar-bg); color: var(--text-color);">ホームへ戻る</button>
+                            <button onclick="loadContent('${path}')" style="padding: 8px 16px; border-radius: 6px; cursor: pointer; border: none; background: var(--accent-color); color: white;">再試行</button>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        async function fetchWithRetry(url, options = {}, retries = 1) {
+            try {
+                // Add cache buster to avoid browser caching issues with modified paths
+                const cacheBuster = `?t=${Date.now()}`;
+                const response = await fetch(url + cacheBuster, { ...options, cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response;
+            } catch (e) {
+                if (retries > 0) return fetchWithRetry(url, options, retries - 1);
+                throw e;
             }
         }
 

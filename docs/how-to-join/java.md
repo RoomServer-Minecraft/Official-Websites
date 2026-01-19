@@ -6,11 +6,8 @@ description: JAVA版の方向けの参加方法です
 
 ## 参加情報 <a href="#join-address" id="join-address"></a>
 
-{% code fullWidth="false" %}
-```markup
-play.roomserver.blog
-```
-{% endcode %}
+
+`play.roomserver.blog`
 
 ## 参加方法
 

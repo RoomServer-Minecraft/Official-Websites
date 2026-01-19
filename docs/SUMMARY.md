@@ -7,8 +7,8 @@
 
 ## RSM参加方法 <a href="#rsm-join-houhou" id="rsm-join-houhou"></a>
 
-* [JAVA版の場合](rsm-join-houhou/java.md)
-* [統合版の場合](rsm-join-houhou/bedrock.md)
+* [JAVA版の場合](how-to-join/java.md)
+* [統合版の場合](how-to-join/bedrock.md)
 
 ## 各サーバーの説明 <a href="#s-setumei" id="s-setumei"></a>
 
