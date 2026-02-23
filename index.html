@@ -448,6 +448,41 @@
             border-top: 1px solid #2a2a2a;
         }
 
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0 40px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            min-width: 80px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .countdown-item span {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2ecc71;
+            line-height: 1;
+        }
+
+        .countdown-item .label {
+            font-size: 0.8rem;
+            color: #8b949e;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         @media (max-width: 992px) {
             .desktop-nav {
                 display: none;
@@ -525,17 +560,33 @@
     <main>
         <section class="hero-section">
             <div class="container">
-                <h1>マインクラフトの世界で<br><span class="gradient-text">冒険を始めよう</span></h1>
-                <div class="announcement-banner">
-                    <a href="recruit.html">🔥 運営募集を開始しました！詳細はこちら &gt;</a>
+                <h1>新たなるRoomServer<br><span class="gradient-text">2026.03.01 14:00 Release</span></h1>
+
+                <div id="countdown" class="countdown-container">
+                    <div class="countdown-item">
+                        <span id="days">00</span>
+                        <div class="label">日</div>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="hours">00</span>
+                        <div class="label">時間</div>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="minutes">00</span>
+                        <div class="label">分</div>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="seconds">00</span>
+                        <div class="label">秒</div>
+                    </div>
                 </div>
+
                 <p>
-                    RoomServerは、快適でフレンドリーな<br>
-                    マインクラフト参加型サーバーです。<br>
-                    しっかりとしたルールとドキュメントで安心してプレイできます。
+                    RoomServerが生まれ変わります。全く新しいマインクラフト体験、遂に始動。<br>
+                    最高品質のコミュニティと最新の環境が、あなたを待っています。
                 </p>
                 <div class="buttons">
-                    <a href="https://docs.roomserver.blog" class="btn btn-primary"><i class="fas fa-gamepad"></i>
+                    <a href="docs.html" class="btn btn-primary"><i class="fas fa-gamepad"></i>
                         今すぐ参加する</a>
                     <a href="https://discord.roomserver.blog" class="btn btn-secondary" target="_blank"
                         rel="noopener noreferrer"><i class="fab fa-discord"></i> Discordに参加</a>
@@ -570,19 +621,21 @@
                 <div class="join-grid">
                     <div class="join-card">
                         <h3>JAVA版</h3>
-                        <p class="version-info">ver: 1.21.5</p>
+                        <p class="version-info">ver: 1.21.11</p>
                         <div class="copy-field">
-                            <span id="java-address">play.roomserver.jp</span>
-                            <button class="copy-btn" data-copy-target="java-address"><i class="fas fa-copy"></i>
+                            <span id="java-address">現在準備中</span>
+                            <button class="copy-btn" data-copy-target="java-address" disabled><i
+                                    class="fas fa-copy"></i>
                                 コピー</button>
                         </div>
                     </div>
                     <div class="join-card">
                         <h3>統合版</h3>
-                        <p class="version-info">(Xboxフレンド申請)</p>
+                        <p class="version-info">ver: 1.21.11 (準備中)</p>
                         <div class="copy-field">
-                            <span id="bedrock-address">mcss3751</span>
-                            <button class="copy-btn" data-copy-target="bedrock-address"><i class="fas fa-copy"></i>
+                            <span id="bedrock-address">現在準備中</span>
+                            <button class="copy-btn" data-copy-target="bedrock-address" disabled><i
+                                    class="fas fa-copy"></i>
                                 コピー</button>
                         </div>
                     </div>
@@ -591,7 +644,7 @@
         </section>
     </main>
     <footer class="main-footer">
-        <p>&copy; 2024 - <span id="current-year"></span> KakkaGroup</p>
+        <p>&copy; 2024 - <span id="current-year"></span> RoomServer</p>
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -605,7 +658,53 @@
             mobileMenuButton.addEventListener('click', openMenu);
             closeMenuButton.addEventListener('click', closeMenu);
             overlay.addEventListener('click', closeMenu);
-            document.querySelectorAll('.copy-btn').forEach(button => { /* ...コピー機能... */ });
+
+            // カウントダウンタイマー
+            const targetDate = new Date('2026-03-01T14:00:00+09:00').getTime();
+
+            const updateCountdown = () => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    document.getElementById('countdown').innerHTML = "<h4>RELEASED!</h4>";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            };
+
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+
+            // コピー機能
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const targetId = button.getAttribute('data-copy-target');
+                    const text = document.getElementById(targetId).textContent;
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        const originalText = button.innerHTML;
+                        button.innerHTML = '<i class="fas fa-check"></i> 完了';
+                        button.disabled = true;
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.disabled = false;
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy: ', err);
+                    }
+                });
+            });
+
             document.getElementById('current-year').textContent = new Date().getFullYear();
         });
     </script>
