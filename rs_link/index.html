@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS.Link - RoomServer公式BOT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            /* GitHub Dark Base */
+            --bg-secondary: #161b22;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-brand: #5865F2;
+            /* Discord Blurple */
+            --accent-glow: rgba(88, 101, 242, 0.4);
+            --card-bg: #21262d;
+            --border-color: #30363d;
+            --success-color: #238636;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding-top: 70px;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Header & Nav --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 1000;
+            background-color: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .main-header nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo i {
+            color: var(--accent-brand);
+            filter: drop-shadow(0 0 5px var(--accent-glow));
+        }
+
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease, transform 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-brand {
+            background-color: var(--accent-brand);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+        }
+
+        .btn-brand:hover {
+            background-color: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-secondary);
+            border-color: var(--text-secondary);
+        }
+
+        .header-btn-invite {
+            padding: 8px 18px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+
+        /* Background effects */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            opacity: 0.5;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            z-index: 10;
+            max-width: 800px;
+            animation: fadeInUP 0.8s ease-out;
+        }
+
+        @keyframes fadeInUP {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(88, 101, 242, 0.15);
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            color: var(--accent-brand);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin: 0 auto 40px auto;
+            max-width: 600px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* --- Features Section --- */
+        .features {
+            padding: 100px 20px;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin: 0 0 15px 0;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-brand);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(88, 101, 242, 0.4);
+        }
+
+        .feature-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .feature-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: rgba(88, 101, 242, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .feature-icon-wrapper i {
+            font-size: 1.8rem;
+            color: var(--accent-brand);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin: 0 0 15px 0;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Feature specific icons/colors */
+        .color-shield {
+            color: #e34c26 !important;
+            background: rgba(227, 76, 38, 0.1) !important;
+        }
+
+        .color-msg {
+            color: #f1e05a !important;
+            background: rgba(241, 224, 90, 0.1) !important;
+        }
+
+        .color-ai {
+            color: #ff7b72 !important;
+            background: rgba(255, 123, 114, 0.1) !important;
+        }
+
+        .color-globe {
+            color: #79c0ff !important;
+            background: rgba(121, 192, 255, 0.1) !important;
+        }
+
+        .color-team {
+            color: #d2a8ff !important;
+            background: rgba(210, 168, 255, 0.1) !important;
+        }
+
+        .feature-card:hover .color-shield i {
+            color: #e34c26;
+            text-shadow: 0 0 10px rgba(227, 76, 38, 0.5);
+        }
+
+        .feature-card:hover .color-msg i {
+            color: #f1e05a;
+            text-shadow: 0 0 10px rgba(241, 224, 90, 0.5);
+        }
+
+        .feature-card:hover .color-ai i {
+            color: #ff7b72;
+            text-shadow: 0 0 10px rgba(255, 123, 114, 0.5);
+        }
+
+        .feature-card:hover .color-globe i {
+            color: #79c0ff;
+            text-shadow: 0 0 10px rgba(121, 192, 255, 0.5);
+        }
+
+        .feature-card:hover .color-team i {
+            color: #d2a8ff;
+            text-shadow: 0 0 10px rgba(210, 168, 255, 0.5);
+        }
+
+
+        /* --- SNS Section --- */
+        .sns-section {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: var(--bg-color);
+        }
+
+        .sns-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .sns-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px 40px;
+            border-radius: 12px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            min-width: 150px;
+        }
+
+        .sns-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .sns-card span {
+            font-weight: 700;
+        }
+
+        .sns-card.hp:hover {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.05);
+        }
+
+        .sns-card.hp:hover i {
+            color: #2ecc71;
+            transform: scale(1.1);
+        }
+
+        .sns-card.x:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sns-card.x:hover i {
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .sns-card.yt:hover {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.05);
+        }
+
+        .sns-card.yt:hover i {
+            color: #ff0000;
+            transform: scale(1.1);
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Menu Setup */
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .mobile-nav-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100%;
+            background-color: var(--bg-secondary);
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1100;
+            padding: 20px;
+        }
+
+        .mobile-nav-panel.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1090;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .close-menu-button {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 30px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            padding: 0;
+            margin-top: 60px;
+        }
+
+        .mobile-nav-links a {
+            display: block;
+            padding: 15px 0;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+
+            .mobile-menu-button {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1.05rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sns-links {
+                gap: 15px;
+            }
+
+            .sns-card {
+                padding: 20px;
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ヘッダー -->
+    <header class="main-header">
+        <nav>
+            <a href="index.html" class="logo"><i class="fas fa-robot"></i> RS.Link</a>
+            <div class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="#features">機能紹介</a></li>
+                    <li><a href="policy.html">プライバシーポリシー</a></li>
+                    <li><a href="tos.html">利用規約</a></li>
+                </ul>
+                <a href="https://discord.com/api/oauth2/authorize" class="btn btn-brand header-btn-invite"
+                    target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-discord"></i> BOTを導入
+                </a>
+            </div>
+            <button class="mobile-menu-button" aria-label="メニューを開く"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <div class="mobile-nav-overlay"></div>
+    <div class="mobile-nav-panel">
+        <button class="close-menu-button" aria-label="メニューを閉じる">&times;</button>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> ホーム</a></li>
+            <li><a href="#features"><i class="fas fa-star"></i> 機能紹介</a></li>
+            <li><a href="policy.html"><i class="fas fa-shield-alt"></i> プライバシーポリシー</a></li>
+            <li><a href="tos.html"><i class="fas fa-file-contract"></i> 利用規約</a></li>
+            <li><a href="https://discord.com/api/oauth2/authorize" target="_blank"><i class="fab fa-discord"></i>
+                    BOTを導入</a></li>
+            <li><a href="../index.html"><i class="fas fa-arrow-left"></i> RoomServer公式サイトへ</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <!-- ヒーローセクション -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="badge">公式チームサポートBOT</div>
+                <h1 class="text-gradient">みんなで協力して作る楽しさを<br>Discordからも支えます。</h1>
+                <p>RoomServerでの勢力活動を全力サポート！<br>初心者からベテランまで、みんなが気軽に楽しめる環境を提供する、OWNERの想いが詰まったBOTです。</p>
+                <div class="hero-actions">
+                    <a href="https://discord.com/api/oauth2/authorize" class="btn btn-brand" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fab fa-discord"></i> あなたのチームに招待する
+                    </a>
+                    <a href="../index.html" class="btn btn-outline" target="_blank">
+                        <i class="fas fa-globe"></i> RoomServer公式サイト
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 機能紹介セクション -->
+        <section id="features" class="features">
+            <div class="section-header">
+                <h2>RS.Link 主な機能</h2>
+                <p>Discordサーバーの管理を効率化し、RoomServerとの連携を深める多彩な機能を搭載しています。</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Card 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper color-shield">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <h3>自動取り締まり機能</h3>
+                    <p>RoomServer上のルールを引き継ぐコミュニティは、サーバーと同じ基準・処罰を実施可能。もちろん、独自基準を優先する設定も可能です。</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper color-msg">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>公式ニュース配信</h3>
+                    <p>RoomServer運営からのお知らせやアップデート情報を、あなたのサーバーへ自動でお届け。大事な情報を見逃しません。</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper color-ai">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI相談サポート</h3>
+                    <p>RoomServer上での悩み事、設定やコマンドの相談事を受け持つ専用AIを搭載。コミュニティの疑問をいつでも解決します。</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper color-globe">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>グローバルチャット</h3>
+                    <p>全ての勢力やチーム、そしてRoomServer全体を繋ぐ共有チャットネットワークに参加可能。サーバーの垣根を越えた交流ができます。</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper color-team">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <h3>チーム運営補助</h3>
+                    <p>グループ内での連携をスムーズにする各種管理コマンドや機能を提供。最高のサーバーライフとチーム活動を支援します。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 公式SNSセクション -->
+        <section class="sns-section">
+            <div class="section-header">
+                <h2>RoomServer 公式SNS</h2>
+            </div>
+            <div class="sns-links">
+                <a href="https://roomserver.jp/" class="sns-card hp" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-globe"></i>
+                    <span>Official HP</span>
+                </a>
+                <a href="https://x.com/RoomServer_jp" class="sns-card x" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-x-twitter"></i>
+                    <span>X (Twitter)</span>
+                </a>
+                <a href="https://www.youtube.com/@RoomServer_jp" class="sns-card yt" target="_blank"
+                    rel="noopener noreferrer">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="main-footer">
+        <div style="margin-bottom: 20px; font-weight: 700;">
+            <a href="policy.html"
+                style="color: var(--text-secondary); text-decoration: none; margin: 0 10px;">プライバシーポリシー</a>
+            |
+            <a href="tos.html" style="color: var(--text-secondary); text-decoration: none; margin: 0 10px;">利用規約</a>
+        </div>
+        <p>&copy; <span id="current-year"></span> RoomServer. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu
+            const mobileMenuBtn = document.querySelector('.mobile-menu-button');
+            const closeMenuBtn = document.querySelector('.close-menu-button');
+            const overlay = document.querySelector('.mobile-nav-overlay');
+            const panel = document.querySelector('.mobile-nav-panel');
+
+            const openMenu = () => { panel.classList.add('active'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; };
+            const closeMenu = () => { panel.classList.remove('active'); overlay.classList.remove('active'); document.body.style.overflow = ''; };
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            closeMenuBtn.addEventListener('click', closeMenu);
+            overlay.addEventListener('click', closeMenu);
+
+            document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // 年表示更新
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+
+</html>

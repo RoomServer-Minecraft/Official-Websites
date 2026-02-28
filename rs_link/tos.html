@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>利用規約 - RS.Link公式BOT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --bg-secondary: #161b22;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-brand: #5865F2;
+            --accent-glow: rgba(88, 101, 242, 0.4);
+            --border-color: #30363d;
+            --card-bg: #21262d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding-top: 70px;
+            line-height: 1.8;
+        }
+
+        /* --- Header & Nav --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 1000;
+            background-color: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .main-header nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo i {
+            color: var(--accent-brand);
+            filter: drop-shadow(0 0 5px var(--accent-glow));
+        }
+
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease, transform 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a.active {
+            color: var(--accent-brand);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        .btn-brand {
+            background-color: var(--accent-brand);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-brand:hover {
+            background-color: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .mobile-nav-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100%;
+            background-color: var(--bg-secondary);
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1100;
+            padding: 20px;
+        }
+
+        .mobile-nav-panel.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1090;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .close-menu-button {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 30px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            padding: 0;
+            margin-top: 60px;
+        }
+
+        .mobile-nav-links a {
+            display: block;
+            padding: 15px 0;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .mobile-nav-links a.active {
+            color: var(--accent-brand);
+        }
+
+        /* --- Content Area --- */
+        .content-wrapper {
+            max-width: 800px;
+            margin: 40px auto 80px auto;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .page-header h1 {
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        /* --- Policy Content Styling --- */
+        .document-content h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-top: 40px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .document-content h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 24px;
+            background-color: var(--accent-brand);
+            border-radius: 2px;
+        }
+
+        .document-content p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .document-content ul {
+            padding-left: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+
+        .document-content li {
+            margin-bottom: 8px;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+
+            .mobile-menu-button {
+                display: block;
+            }
+
+            .content-wrapper {
+                margin: 20px;
+                padding: 25px;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ヘッダー -->
+    <header class="main-header">
+        <nav>
+            <a href="index.html" class="logo"><i class="fas fa-robot"></i> RS.Link</a>
+            <div class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="index.html#features">機能紹介</a></li>
+                    <li><a href="policy.html">プライバシーポリシー</a></li>
+                    <li><a href="tos.html" class="active">利用規約</a></li>
+                </ul>
+                <a href="https://discord.com/api/oauth2/authorize" class="btn-brand" target="_blank"
+                    rel="noopener noreferrer">
+                    <i class="fab fa-discord"></i> BOTを導入
+                </a>
+            </div>
+            <button class="mobile-menu-button" aria-label="メニューを開く"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <!-- モバイルナビゲーション -->
+    <div class="mobile-nav-overlay"></div>
+    <div class="mobile-nav-panel">
+        <button class="close-menu-button" aria-label="メニューを閉じる">&times;</button>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> ホーム</a></li>
+            <li><a href="index.html#features"><i class="fas fa-star"></i> 機能紹介</a></li>
+            <li><a href="policy.html"><i class="fas fa-shield-alt"></i> プライバシーポリシー</a></li>
+            <li><a href="tos.html" class="active"><i class="fas fa-file-contract"></i> 利用規約</a></li>
+            <li><a href="https://discord.com/api/oauth2/authorize" target="_blank"><i class="fab fa-discord"></i>
+                    BOTを導入</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1>利用規約<br>(Terms of Service)</h1>
+                <p>RoomServer公式チームサポートBOT「RS.Link」</p>
+            </div>
+
+            <div class="document-content">
+                <p>本利用規約は、RoomServer公式チームサポートBOT「RS.Link」（以下「本BOT」）の利用条件を定めるものです。</p>
+
+                <h2>1. 適用</h2>
+                <p>本規約は、本BOTを利用するすべてのユーザーおよびサーバー管理者に適用されます。</p>
+
+                <h2>2. 利用条件</h2>
+                <ul>
+                    <li>本BOTは、DiscordおよびRoomServerの規約を遵守した範囲で利用してください。</li>
+                    <li>サーバー管理者は、本BOTの設定および運用について責任を負うものとします。</li>
+                </ul>
+
+                <h2>3. 禁止事項</h2>
+                <p>以下の行為を禁止します。</p>
+                <ul>
+                    <li>本BOTを用いた違法行為、迷惑行為、嫌がらせ行為</li>
+                    <li>BOTの機能・システムへの不正アクセスや改変</li>
+                    <li>グローバルチャット機能を利用したスパム、荒らし、誹謗中傷</li>
+                    <li>運営や他ユーザーへのなりすまし行為</li>
+                </ul>
+
+                <h2>4. 自動取り締まり機能について</h2>
+                <ul>
+                    <li>本BOTは、RoomServer上のルールまたはサーバー独自ルールに基づき自動処罰を行います。</li>
+                    <li>判定は自動化されており、完全な正確性を保証するものではありません。</li>
+                    <li>最終的な判断・対応は、各サーバー管理者が行うものとします。</li>
+                </ul>
+
+                <h2>5. 免責事項</h2>
+                <ul>
+                    <li>本BOTの利用により発生した損害について、運営は一切の責任を負いません。</li>
+                    <li>Discord側の障害や仕様変更による影響についても責任を負いません。</li>
+                    <li>本BOTの機能は予告なく変更・停止される場合があります。</li>
+                </ul>
+
+                <h2>6. サービスの停止・制限</h2>
+                <p>以下の場合、事前通知なく本BOTの利用を制限または停止することがあります。</p>
+                <ul>
+                    <li>規約違反が確認された場合</li>
+                    <li>システム保守・障害対応が必要な場合</li>
+                    <li>その他、運営が不適切と判断した場合</li>
+                </ul>
+
+                <h2>7. 規約の変更</h2>
+                <p>本規約は、必要に応じて変更されることがあります。<br>
+                    変更後も本BOTを利用した場合、変更に同意したものとみなします。</p>
+
+                <hr style="border: none; border-top: 1px solid var(--border-color); margin: 40px 0;">
+
+                <h2>お問い合わせ</h2>
+                <p>本BOTに関するお問い合わせは、RoomServer公式窓口または運営チームまでご連絡ください。</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="main-footer">
+        <div style="margin-bottom: 20px; font-weight: 700;">
+            <a href="policy.html"
+                style="color: var(--text-secondary); text-decoration: none; margin: 0 10px;">プライバシーポリシー</a>
+            |
+            <a href="tos.html" style="color: var(--text-primary); text-decoration: none; margin: 0 10px;">利用規約</a>
+        </div>
+        <p>&copy; <span id="current-year"></span> RoomServer. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-button');
+            const closeMenuBtn = document.querySelector('.close-menu-button');
+            const overlay = document.querySelector('.mobile-nav-overlay');
+            const panel = document.querySelector('.mobile-nav-panel');
+
+            const openMenu = () => { panel.classList.add('active'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; };
+            const closeMenu = () => { panel.classList.remove('active'); overlay.classList.remove('active'); document.body.style.overflow = ''; };
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            closeMenuBtn.addEventListener('click', closeMenu);
+            overlay.addEventListener('click', closeMenu);
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+
+</html>
